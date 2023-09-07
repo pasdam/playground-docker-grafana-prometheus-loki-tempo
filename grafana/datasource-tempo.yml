@@ -1,0 +1,21 @@
+apiVersion: 1
+
+datasources:
+  # source: https://github.com/grafana/grafana/blob/main/docs/sources/datasources/tempo/configure-tempo-data-source.md
+  - name: Tempo
+    type: tempo
+    uid: tempo-ds
+    url: http://tempo:3200
+    jsonData:
+      tracesToLogs:
+        datasourceUid: loki-ds
+        filterByTraceID: true
+      additionalSettings:
+        lokiSearch:
+          dataSource: loki-ds
+      serviceMap:
+        datasourceUid: prometheus-ds
+      nodeGraph:
+        enabled: true
+      lokiSearch:
+        datasourceUid: loki-ds

@@ -1,0 +1,19 @@
+apiVersion: 1
+
+datasources:
+  # source: https://github.com/grafana/grafana/blob/main/docs/sources/datasources/loki/_index.md
+  - name: Loki
+    type: loki
+    uid: loki-ds
+    url: http://loki:3100
+    isDefault: true
+    jsonData:
+      derivedFields:
+        - datasourceUid: tempo-ds
+          matcherRegex: "traceid\":\"(.*?)\""
+          name: TraceID
+          # url will be interpreted as query for the datasource
+          url: '$${__value.raw}'
+          # optional for URL Label to set a custom display label for the link.
+          urlDisplayLabel: 'View Trace'
+          internalLink: true
